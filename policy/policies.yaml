@@ -2,6 +2,26 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
+  name: cluster-manager
+rules:
+- apiGroups: ["rbac.authorization.k8s.io",""]
+  resources: ["clusterrolebindings", "rolebindings", "resourcequotas", "namespaces", "serviceaccounts"]
+  verbs: ["create", "delete", "get", "list", "patch", "update", "watch"]
+- apiGroups: ["apps", "autoscaling", "", "certificates.k8s.io", "rbac.authorization.k8s.io", "", "apps", "batch", "extensions", "storage.k8s.io"]
+  resources: ["clusterroles", "roles", "daemonsets", "deployments", "replicasets", "statefulsets", "configmaps", "endpoints", "events", "horizontalpodautoscalers", "pods", "pods/log", "podtemplates", "replicationcontrollers", "secrets", "services", "services/proxy", "certificatesigningrequests", "cronjobs", "jobs", "ingresses", "persistentvolumes", "persistentvolumeclaims", "storageclasses"]
+  verbs: ["get", "list"]
+- apiGroups: ["rbac.authorization.k8s.io"]
+  resources: ["clusterroles", "roles"]
+  verbs: ["get", "list", "bind"]
+  resourceNames: ["cluster-manager", "cluster-developer", "cluster-auditor", "istio-user", "kubernetes-dashboard", "dashboard-viewonly"]
+- apiGroups: ["extensions"]
+  resources: ["podsecuritypolicies"]
+  resourceNames: ["pks-restricted"]
+  verbs: ["use"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
   name: cluster-auditor
 rules:
 - apiGroups: ["apps", "autoscaling", "", "certificates.k8s.io", "batch", "extensions"]
@@ -41,26 +61,6 @@ rules:
 - apiGroups: ["extensions"]
   resources: ["podsecuritypolicies"]
   resourceNames: ["pks-privileged"]
-  verbs: ["use"]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: cluster-manager
-rules:
-- apiGroups: ["rbac.authorization.k8s.io",""]
-  resources: ["clusterrolebindings", "rolebindings", "resourcequotas", "namespaces", "serviceaccounts"]
-  verbs: ["create", "delete", "get", "list", "patch", "update", "watch"]
-- apiGroups: ["apps", "autoscaling", "", "certificates.k8s.io", "rbac.authorization.k8s.io", "", "apps", "batch", "extensions", "storage.k8s.io"]
-  resources: ["clusterroles", "roles", "daemonsets", "deployments", "replicasets", "statefulsets", "configmaps", "endpoints", "events", "horizontalpodautoscalers", "pods", "pods/log", "podtemplates", "replicationcontrollers", "secrets", "services", "services/proxy", "certificatesigningrequests", "cronjobs", "jobs", "ingresses", "persistentvolumes", "persistentvolumeclaims", "storageclasses"]
-  verbs: ["get", "list"]
-- apiGroups: ["rbac.authorization.k8s.io"]
-  resources: ["clusterroles", "roles"]
-  verbs: ["get", "list", "bind"]
-  resourceNames: ["cluster-manager", "cluster-developer", "cluster-auditor", "istio-user", "kubernetes-dashboard", "dashboard-viewonly"]
-- apiGroups: ["extensions"]
-  resources: ["podsecuritypolicies"]
-  resourceNames: ["pks-restricted"]
   verbs: ["use"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
