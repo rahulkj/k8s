@@ -1,0 +1,12 @@
+apiVersion: pksapi.io/v1beta1
+kind: ClusterLogSink
+metadata:
+   name: clusterlogsink
+spec:
+   type: syslog
+   host: 10.0.0.25
+   port: 5100
+   enable_tls: false
+   filters:
+    include-events: true
+    include-logs: true
