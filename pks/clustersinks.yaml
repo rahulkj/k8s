@@ -4,7 +4,7 @@ metadata:
    name: clusterlogsink
 spec:
    type: syslog
-   host: 10.0.0.25
+   host: logs.homelab.io
    port: 5100
    enable_tls: false
    filters:
