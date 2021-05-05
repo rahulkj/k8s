@@ -4,7 +4,7 @@ metadata:
   name: cluster-manager
 subjects:
 - kind: User
-  name: oidc:rjain@cloudlab.io
+  name: oidc:rjain@cloudlab.local
   apiGroup: rbac.authorization.k8s.io
 - kind: Group
   name: oidc:people

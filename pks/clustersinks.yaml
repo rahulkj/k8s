@@ -4,7 +4,7 @@ metadata:
    name: clusterlogsink
 spec:
    type: syslog
-   host: logs.cloudlab.io
+   host: logs.cloudlab.local
    port: 5100
    enable_tls: false
    filters:
